@@ -13,29 +13,32 @@ def figure():
 
 
 def moyenne_mois(df):
-    moyenne=[]
-    indexNames = df[df['prices'] <= 20].index
-    df.drop(indexNames, inplace=True)
-    list_mois = df['start_date'].unique()
-    print(list_mois)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    moyenne = []
+    # Créer une copie du DataFrame pour éviter la modification en place
+    df_copy = df.copy()
+    # Filtrer les prix <= 20 sans modifier le DataFrame original
+    df_copy = df_copy[df_copy['prices'] > 20]
+    
+    list_mois = df_copy['start_date'].unique()
     for i in range(len(list_mois)):
         list_mois[i] = datetime.datetime.strptime(list_mois[i], "%m-%d-%Y")
     list_mois = sorted(list_mois)
     for i in range(len(list_mois)):
         list_mois[i] = datetime.datetime.strftime(list_mois[i], "%m-%d-%Y")
+    
     for i in list_mois:
-        mois=[]
-        df = df[['start_date','prices']]
-        df_mois = df[(df['start_date']== i)]
-        mois.append(i)
-        price = df_mois["prices"].mean()
-        mois.append(price)
+        df_mois = df_copy[df_copy['start_date'] == i][['start_date', 'prices']]
+        mois = [i, df_mois["prices"].mean()]
         moyenne.append(mois)
+    
     df_moyenne = pd.DataFrame(data=moyenne, columns=['date', 'mean'])
-    df_moyenne.to_csv("stat.csv",index=False,sep=";")
+    df_moyenne.to_csv(os.path.join(current_dir, "stat.csv"), index=False, sep=";")
 
 
-df= pd.read_csv("test_carte.csv", sep=";")
+# Commenté pour éviter l'exécution
+#current_dir = os.path.dirname(os.path.abspath(__file__))
+#df = pd.read_csv(os.path.join(current_dir, "test_carte.csv"), sep=";")
 #moyenne_mois(df)
 
 #df.loc[df['start_date']=='11-04-2022','start_date'] = "04-11-2022"
