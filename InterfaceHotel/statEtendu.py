@@ -2,11 +2,13 @@ import pandas as pd
 import numpy as np
 import datetime
 import plotly.express as px
+import os
 
 
 def figure_et():
-    df_total = pd.read_csv("statEtendu.csv", sep=";")
-    fig = px.line(df_total, x="date", y=["etendu",'max','min'], markers=True, color_discrete_sequence = [ "#82DAD0","#FFC300",'#DAF7A6'])
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    df_total = pd.read_csv(os.path.join(current_dir, "statEtendu.csv"), sep=";")
+    fig = px.line(df_total, x="date", y="etendu", markers=True, color_discrete_sequence = [ "#82DAD0"])
     return fig
 
 

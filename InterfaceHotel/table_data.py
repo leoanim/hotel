@@ -1,7 +1,8 @@
 import sys
 from dash import dash_table, html, dcc
 import pandas as pd
-import columns
+from . import columns
+import os
 
 
 stars_choice,date_choice,adulte_choice,enfant_choice,room_choice,lenght = columns.columns()
@@ -29,7 +30,8 @@ def table_type(df_column):
     else:
         return 'any'
 
-df = pd.read_csv("test_carte.csv", sep=";")
+current_dir = os.path.dirname(os.path.abspath(__file__))
+df = pd.read_csv(os.path.join(current_dir, "test_carte.csv"), sep=";")
 df_col = df.drop(['gps','nb_adulte','nb_enfant','nb_chambre'], axis=1)
 table = dash_table.DataTable( id = 'table_data',
                               columns=[{'name': i, 'id': i, 'type': table_type(df_col[i])} for i in df_col.columns],

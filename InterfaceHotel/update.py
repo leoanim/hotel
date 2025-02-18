@@ -1,13 +1,15 @@
 import pandas as pd
-import statMean
-import statMedian
-import statEtendu
+from . import statMean
+from . import statMedian
+from . import statEtendu
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import os
 
 
 def update_table(stars_choice,date_choice,adulte_choice,enfant_choice,room_choice):
-    df = pd.read_csv("test_carte.csv", sep=";")
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    df = pd.read_csv(os.path.join(current_dir, "test_carte.csv"), sep=";")
     df = df.drop(['gps'], axis=1)
     if stars_choice == 10:
         df = df

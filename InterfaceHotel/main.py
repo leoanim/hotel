@@ -56,10 +56,8 @@ app.layout = html.Div([
         ]),
         dcc.Tab(label='Carte', value='tab-4-carte',style=tab_style, selected_style=tab_selected_style, children=[
                         html.Div([
-                            html.Iframe(id='map', srcDoc=open('Carte_hotel.html', 'r').read(), width='80%', height='500vh',)
-
+                            html.Iframe(id='map', srcDoc=open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Carte_hotel.html'), 'r', encoding='utf-8').read(), width='80%', height='500vh',)
                         ], style={'textAlign': 'center'})
-
         ])
     ], style=tabs_styles),
     html.Div(id='tabs-content-hotel')

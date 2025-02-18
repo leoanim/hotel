@@ -2,10 +2,12 @@ import pandas as pd
 import numpy as np
 import datetime
 import plotly.express as px
+import os
 
 
 def figure_med():
-    df_total = pd.read_csv("statMed.csv", sep=";")
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    df_total = pd.read_csv(os.path.join(current_dir, "statMed.csv"), sep=";")
     fig = px.line(df_total, x="date", y="median", markers=True, color_discrete_sequence = [ "#82DAD0"])
     return fig
 
