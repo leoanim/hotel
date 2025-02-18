@@ -4,7 +4,28 @@ from . import table_data
 from . import update
 from . import accueil
 import os
+from . import statMean
+from . import statMedian
+from . import statEtendu
+import pandas as pd
 
+
+def initialize_csv_files():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    test_carte_path = os.path.join(current_dir, "test_carte.csv")
+    
+    # Si le fichier test_carte.csv existe, générer les autres fichiers
+    if os.path.exists(test_carte_path):
+        df = pd.read_csv(test_carte_path, sep=";")
+        if not os.path.exists(os.path.join(current_dir, "stat.csv")):
+            statMean.moyenne_mois(df)
+        if not os.path.exists(os.path.join(current_dir, "statMed.csv")):
+            statMedian.mediane_mois(df)
+        if not os.path.exists(os.path.join(current_dir, "statEtendu.csv")):
+            statEtendu.etendu_mois(df)
+
+# Initialiser les fichiers CSV
+initialize_csv_files()
 
 # Load data
 app = Dash(__name__, external_stylesheets=[dbc.themes.JOURNAL])  # initialisation du dash app
